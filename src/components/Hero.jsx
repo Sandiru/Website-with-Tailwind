@@ -2,15 +2,21 @@ import { curve, heroBackground, robot } from "../assets";
 import Button from "./Button";
 import Section from "./Section";
 import { BackgroundCircles, BottomLine, Gradient } from "./design/Hero";
-import { heroIcons } from "../constants";
+import { heroIcons, tools } from "../constants";
 import { ScrollParallax } from "react-just-parallax";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Generating from "./Generating";
 import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
+import Tools from "./Tools";
 
 const Hero = () => {
   const parallaxRef = useRef(null);
+  const [isStarted, setIsStarted] = useState(false);
+
+  const handleClick = () => {
+    setIsStarted(!isStarted);
+  };
 
   return (
     <Section
@@ -39,9 +45,21 @@ const Hero = () => {
             Unleash the power of AI within Brainwave. Upgrade your productivity
             with Brainwave, the open AI chat app.
           </p>
-          <Button href="/pricing" white>
+          <Button onClick={handleClick} white>
             Get started
           </Button>
+          {isStarted ? (
+            <>
+              <div className="flex flex-wrap items-center justify-center">
+                {tools.map((item) => (
+                  <Tools name={item.name} url={item.url} />
+                ))}
+              </div>
+              <h5 className="tagline mb-6 text-center text-n-1/50">
+                More tools Comming soon...
+              </h5>
+            </>
+          ) : null}
         </div>
         <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
           <div className="relative z-1 p-0.5 rounded-2xl bg-conic-gradient">

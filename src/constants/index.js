@@ -326,3 +326,11 @@ export const socials = [
     url: "#",
   },
 ];
+
+export const tools = [
+  { id: "0", name: "Essay Generator", url: "http://" },
+  { id: "1", name: "Text Summerizer", url: "http://" },
+  { id: "2", name: "MCQ Generator", url: "http://" },
+  { id: "3", name: "Code Generator", url: "http://" },
+  { id: "4", name: "Grammer Checker", url: "http://" },
+];
