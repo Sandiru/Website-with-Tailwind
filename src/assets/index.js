@@ -1,5 +1,5 @@
 import brainwave from "./brainwave.svg";
-import AIMaster from "./AIMaster.png";
+import AIMaster from "./AIMaster.svg";
 import check from "./check.svg";
 import brainwaveSymbol from "./brainwave-symbol.svg";
 import brainwaveWhiteSymbol from "./brainwave-symbol-white.svg";
