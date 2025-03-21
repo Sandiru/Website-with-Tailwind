@@ -328,9 +328,9 @@ export const socials = [
 ];
 
 export const tools = [
-  { id: "0", name: "Essay Generator", url: "http://192.168.38.203:8502" },
+  { id: "0", name: "Essay Generator", url: "http://" },
   { id: "1", name: "Text Summerizer", url: "http://" },
-  { id: "2", name: "MCQ Generator", url: "http://192.168.38.203:8501" },
+  { id: "2", name: "MCQ Generator", url: "http://" },
   { id: "3", name: "Code Generator", url: "http://" },
   { id: "4", name: "Grammer Checker", url: "http://" },
 ];
