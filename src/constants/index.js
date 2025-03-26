@@ -327,10 +327,32 @@ export const socials = [
   },
 ];
 
-export const tools = [
+/*export const tools = [
   { id: "0", name: "Essay Generator", url: "http://192.168.38.203:8502" },
   { id: "1", name: "Text Summerizer", url: "http://" },
   { id: "2", name: "MCQ Generator", url: "http://192.168.38.203:8501" },
   { id: "3", name: "Code Generator", url: "http://" },
   { id: "4", name: "Grammer Checker", url: "http://" },
+];*/
+
+export const tools = [
+  {
+    id: "0",
+    title: "FOR ESSAYS",
+    text: "Easily generate well-structured essays on any topic. Just enter a subject, and the tool will create a detailed and organized essay within seconds.",
+    backgroundUrl: "./src/assets/benefits/card-1.svg",
+    iconUrl: benefitIcon1,
+    imageUrl: benefitImage2,
+    url: "essayPage",
+  },
+
+  {
+    id: "1",
+    title: "FOR MCQ's",
+    text: "Quickly generate multiple-choice questions from any text. Perfect for quizzes, tests, and learning activities.",
+    backgroundUrl: "./src/assets/benefits/card-3.svg",
+    iconUrl: benefitIcon3,
+    imageUrl: benefitImage2,
+    url: "mcqPage",
+  },
 ];

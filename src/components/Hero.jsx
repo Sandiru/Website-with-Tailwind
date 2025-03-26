@@ -9,8 +9,10 @@ import Generating from "./Generating";
 import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
 import Tools from "./Tools";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const parallaxRef = useRef(null);
   const [isStarted, setIsStarted] = useState(false);
 
@@ -29,7 +31,7 @@ const Hero = () => {
       <div className="container relative" ref={parallaxRef}>
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
           <h1 className="h1 mb-6">
-            Explore the Possibilities of&nbsp;AI&nbsp;Chatting with {` `}
+            Explore the Possibilities of&nbsp;AI&nbsp; with {` `}
             <span className="inline-block relative">
               AIMaster{" "}
               <img
@@ -45,7 +47,7 @@ const Hero = () => {
             Unleash the power of AI within AIMaster. Upgrade your productivity
             with AIMaster, the open AI tool app.
           </p>
-          <Button onClick={handleClick} white>
+          <Button onClick={() => navigate("/tools")} white>
             Get started
           </Button>
           {isStarted ? (
