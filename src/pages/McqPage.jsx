@@ -1,5 +1,8 @@
-import { useState } from "react";
-import { data } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { auth, db } from "../firebase/firebaseInit";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { FaLock } from "react-icons/fa";
 
 const McqPage = () => {
   const [file, setFile] = useState(null);
@@ -9,6 +12,21 @@ const McqPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fileTypeOk, setFileTypeOk] = useState(false);
+  const [userPlan, setUserPlan] = useState(null);
+
+  useEffect(() => {
+    const fetchUserPlan = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setUserPlan(userSnap.data().plan);
+        }
+      }
+    });
+
+    return () => fetchUserPlan();
+  }, []);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -106,10 +124,11 @@ const McqPage = () => {
             <h4 className="text-center text-lg font-semibold mb-2 sm:mb-0">
               MCQ Count
             </h4>
+
             <input
               type="number"
               value={mcqCount}
-              max={100}
+              max={userPlan === "Basic" ? 10 : 100}
               min={1}
               onChange={(e) => setMcqCount(e.target.value)}
               className="w-full sm:w-1/3 border text-white text-center border-gray-300 rounded-lg p-3 
@@ -117,6 +136,18 @@ const McqPage = () => {
          text-lg transition"
             />
           </div>
+          {userPlan === "Basic" ? (
+            <p className="text-right mt-2 text-gray-500 text-sm">
+              🔒 Maximum 10 mcq's for basic plan,
+              <a
+                className="text-blue-600 font-semibold"
+                href="subscriptionForm"
+              >
+                {" "}
+                Upgrade plan
+              </a>
+            </p>
+          ) : null}
 
           <button
             onClick={handleGenerateMCQs}

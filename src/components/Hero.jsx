@@ -10,6 +10,9 @@ import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
 import Tools from "./Tools";
 import { useNavigate } from "react-router-dom";
+import { auth, googleProvider, db } from "../firebase/firebaseInit";
+import { signInWithPopup } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -17,9 +20,35 @@ const Hero = () => {
   const [isStarted, setIsStarted] = useState(false);
 
   const handleClick = () => {
-    setIsStarted(!isStarted);
+    if (auth.currentUser) {
+      navigate("/tools");
+    } else {
+      handleGoogleSignIn();
+    }
+    //setIsStarted(!isStarted);
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("User Info:", result.user);
+      // Check if user already exists in Firestore
+      const userRef = doc(db, "users", result.user.uid);
+      const docSnap = await getDoc(userRef);
+
+      if (!docSnap.exists()) {
+        // New user, set default plan
+        await setDoc(userRef, {
+          name: result.user.displayName,
+          email: result.user.email,
+          plan: "Basic",
+          subscriptionStart: new Date(),
+        });
+      }
+    } catch (error) {
+      console.error("Google Sign-In Error:", error.message);
+    }
+  };
   return (
     <Section
       className="pt-[12rem] -mt-[5.25rem]"
@@ -47,7 +76,7 @@ const Hero = () => {
             Unleash the power of AI within AIMaster. Upgrade your productivity
             with AIMaster, the open AI tool app.
           </p>
-          <Button onClick={() => navigate("/tools")} white>
+          <Button onClick={handleClick} white>
             Get started
           </Button>
           {isStarted ? (

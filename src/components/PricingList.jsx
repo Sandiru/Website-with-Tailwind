@@ -1,8 +1,57 @@
+import { useState, useEffect } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db, googleProvider } from "../firebase/firebaseInit";
+import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { check } from "../assets";
 import { pricing } from "../constants";
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
 const PricingList = () => {
+  const navigate = useNavigate();
+  const [userPlan, setUserPlan] = useState(null);
+
+  useEffect(() => {
+    const fetchUserPlan = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setUserPlan(userSnap.data().plan);
+        }
+      }
+    });
+
+    return () => fetchUserPlan();
+  }, []);
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("User Info:", result.user);
+      // Check if user already exists in Firestore
+      const userRef = doc(db, "users", result.user.uid);
+      const docSnap = await getDoc(userRef);
+
+      if (!docSnap.exists()) {
+        // New user, set default plan
+        await setDoc(userRef, {
+          name: result.user.displayName,
+          email: result.user.email,
+          plan: "Basic",
+          subscriptionStart: new Date(),
+        });
+      }
+    } catch (error) {
+      console.error("Google Sign-In Error:", error.message);
+    }
+  };
+  const handleSubscription = () => {
+    if (auth.currentUser) {
+      navigate("/subscriptionForm");
+    } else {
+      handleGoogleSignIn();
+    }
+  };
   return (
     <div className="flex gap-[1rem] max-lg:flex-wrap">
       {pricing.map((item) => (
@@ -26,14 +75,19 @@ const PricingList = () => {
               </>
             )}
           </div>
-
-          <Button
-            className="w-full mb-6"
-            href={item.price ? "/pricing" : "mailto:contact@jsmastery.pro"}
-            white={!!item.price}
-          >
-            {item.price ? "Get started" : "Contact us"}
-          </Button>
+          {userPlan === item.title ? (
+            <Button className="w-full mb-6" disabled={true}>
+              Current Plan
+            </Button>
+          ) : (
+            <Button
+              className="w-full mb-6"
+              onClick={item.price ? handleSubscription : null}
+              white
+            >
+              {item.price ? "Get started" : "Contact us"}
+            </Button>
+          )}
 
           <ul>
             {item.features.map((feature, index) => (
