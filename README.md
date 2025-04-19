@@ -1,12 +1,44 @@
-# React + Vite
+📝 AI-Powered Essay & MCQ Generator
+This is an AI-powered web application that allows users to generate essays based on a given topic and word count. It also supports PDF uploads for processing educational content. Built with a React frontend and a Flask backend using the DeepSeek model via OpenRouter API.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 Features
+🧠 Generate high-quality essays using AI (DeepSeek)
 
-Currently, two official plugins are available:
+📄 Upload PDF files for content-based generation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🌐 React (Frontend) + Flask (Backend)
 
-## Expanding the ESLint configuration
+🔐 CORS and error handling enabled
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🧼 Automatically formats and displays clean, readable output
+
+💬 Displays server errors in the UI
+
+📁 Project Structure
+bash
+Copy
+Edit
+├── backend/
+│   ├── app.py              # Flask backend
+│   └── .env                # API key for OpenRouter
+├── frontend/
+│   ├── App.jsx             # Main React Native Web app
+│   └── components/         # UI components
+🛠️ Tech Stack
+Frontend: React js, Tailwind CSS
+
+Backend: Flask (Python)
+
+AI Model: DeepSeek via OpenRouter
+
+Deployment: Firebase Hosting (Frontend), Google Cloud Run (Backend)
+
+File Upload: FormData with PDF type checking
+
+CORS: Enabled via flask-cors
+
+📷 Website link
+https://aimaster-b5aa0.firebaseapp.com
+
+📄 License
+This project is licensed under the MIT License. Feel free to fork and contribute!
